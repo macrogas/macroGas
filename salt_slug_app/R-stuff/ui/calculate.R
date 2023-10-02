@@ -6,6 +6,7 @@ div(class = 'calculate panel-container',
             uiOutput("background_out"),
             uiOutput("distance_out"),
             uiOutput("width_out"),
+            uiOutput("depth_out"),
             checkboxInput("excludeflags", "Exclude 'bad' flags", value = FALSE, width = NULL)
             
             ),

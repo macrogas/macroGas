@@ -26,10 +26,10 @@ uploaded_data <- reactiveValues(csv_names = NULL,
 
 # Download handler for downloading the template
 output$downloadFile <- downloadHandler( 
-    filename = "slugtemplate.csv",
-    content = function(file) {
-      write.csv(templateCSV, file, row.names = FALSE)
-      })
+  filename = "slugtemplate.csv",
+  content = function(file) {
+    write.csv(templateCSV, file, row.names = FALSE)
+  })
 
 
 # Function for checking the format of uploaded files and updating list of uploaded CSVs
@@ -80,14 +80,14 @@ observeEvent(input$upload, {
         p("Could not read CSV file. Please check that your data does not have a header before uploading."),
         easyClose = FALSE,
         footer = tagList(
-        modalButton("Back")
-      )
+          modalButton("Back")
+        )
       )
       )
     }
   )
 })
-      
+
 
 ### MANUAL UPLOAD HOBOS ###
 
@@ -99,7 +99,7 @@ clean_hobo <- function(csv_file){
     mutate(Station = input$stationupload) %>%
     select(Date_Time, Station, Low_Range, Full_Range, Temp_C)
   
-    return(clean_csv_file)
+  return(clean_csv_file)
   
 }
 
@@ -156,8 +156,8 @@ observe({
         }
       } 
     }
-    else
-      uploaded_data$index <- 1 # Set index to 1 if only one file
+  else
+    uploaded_data$index <- 1 # Set index to 1 if only one file
   else
     dtRendered(FALSE) # if length isn't > 0, set dtRendered to FALSE 
 }) 
@@ -182,7 +182,7 @@ output$contents <- renderDT({
     
     # Create a datatable to display the selected file
     datatable(selected_file, 
-             options = list(lengthChange = FALSE, ordering = FALSE, searching = FALSE, pageLength = 20))
+              options = list(lengthChange = FALSE, ordering = FALSE, searching = FALSE, pageLength = 20))
   }
 })
 
@@ -211,14 +211,16 @@ observeEvent(input$uploadContinue,{
       return()
     }
   }
-
+  
   comb_df <- do.call(rbind, uploaded_data$data)
   colnames(comb_df) <- c('Date_Time', 'station', 'Low_Range', 'Full_Range', 'Temp_C') #naming columns
   comb_df <- comb_df %>% #saves following code
     mutate_at(vars(-Date_Time), as.numeric) %>% #changes every variable but date_time to numeric
     mutate(Date_Time = mdy_hms(Date_Time, tz='EST')) %>% #changes date_time to a mdy_hms format in est time zone
-    mutate(Low_Range_Flag = "good", Full_Range_Flag = "good", 
-            Temp_C_Flag = "good", id = row.names(.))
+    mutate(Low_Range_Flag = "good", 
+           Full_Range_Flag = "good", 
+           Temp_C_Flag = "good", 
+           id = row.names(.))
   
   goop$combined_df <- comb_df
   

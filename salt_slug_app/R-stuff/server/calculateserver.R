@@ -45,21 +45,28 @@ output$calc_station <- renderUI({
 output$background_out <- renderUI({
   req(goop$calc_curr_station_df)
   req(goop$calc_curr_station_df_use)           
-  numericInput("background", label = "Background conductivity, (µS/cm):", value = 0)
+  numericInput("background", label = "Background conductivity (µS/cm):", value = 0)
 }) 
 
 # A renderUI for entering stream width 
 output$width_out <- renderUI({
   req(goop$calc_curr_station_df)
   req(goop$calc_curr_station_df_use)
-  numericInput("width", label = "Stream width, (m):", value = 0)
+  numericInput("width", label = "Stream width (m):", value = 0)
 }) 
 
 # A renderUI for entering distance from station 1 
 output$distance_out <- renderUI({
   req(goop$calc_curr_station_df)
   req(goop$calc_curr_station_df_use)
-  numericInput("distance", label = "Distance from injection, (m):", value = 0)
+  numericInput("distance", label = "Distance from injection (m):", value = 0)
+}) 
+
+# A renderUI for entering distance from station 1 
+output$depth_out <- renderUI({
+  req(goop$calc_curr_station_df)
+  req(goop$calc_curr_station_df_use)
+  numericInput("depth", label = "Mean station depth (m):", value = 0)
 }) 
 
 #
@@ -200,6 +207,12 @@ observeEvent(input$width, {
   goop$dischargeDF[goop$dischargeDF$Station == paste0('Station ',input$calc_station_picker), 'width_m'] <- width
 })
 
+observeEvent(input$depth, {
+  goop$depth <- input$depth
+  depth <- goop$depth
+  goop$dischargeDF[goop$dischargeDF$Station == paste0('Station ',input$calc_station_picker), 'depth_m'] <- depth
+})
+
 # Assigns distance from injection to output table
 observeEvent(input$distance, {
   goop$distance <- input$distance
@@ -256,6 +269,7 @@ observeEvent(c(goop$combined_df), {
                   "travel_time_sec" = zero, # done
                   "velocity_ms" = zero, # done
                   "width_m" = zero, # done
+                  "depth_m" = zero, # done
                   "bkgnd_uS" = zero, # done
                   "peak_uS" = zero, # done
                   "slug_recovered_g" = zero) # just leave blank so done
