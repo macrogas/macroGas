@@ -1,7 +1,8 @@
 # The app will use these keywords to detect and guess variable names
-keywords <- c("NA","Date_Time","Date", 'Time',
-              "DO", "Temp",
-              "Low Range", "Full Range", "High Range", "Pres", "Baro", 
+keywords <- c("NA", "Date", 'Time',
+              "DO_mgL", "Temp_C",
+              "Cond_low", "Cond_full", "Cond_high", 
+              "WL_kPa", "Baro_kPa", 
               "pH", "CO2_ppm") 
 
 # Detect and guess variable names in a given data frame based on a predefined list of keywords
