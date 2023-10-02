@@ -43,7 +43,7 @@ Quality Assurance/Quality Control page allows you to select a station and view t
 
 **Calculate**
 
-Calculate page performs *discharge*, *groundwater excharge*  and *time to half height* calculations. Here's how you can use this page:
+Calculate page performs *discharge*, *groundwater exchange*  and *time to half height* calculations. Here's how you can use this page:
 
 1. Manually enter the background conductivity, found by looking at the graph and seeing the baseline of conductivity before the curve.
 2. Enter the mass of salt used in your salt slug.

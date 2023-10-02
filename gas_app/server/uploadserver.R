@@ -1,5 +1,8 @@
 # The app will use these keywords to detect and guess variable names
-keywords <- c("NA","DO", "Date", "Low Range", "Full Range", "High Range", "Temp", "Abs") 
+keywords <- c("NA","Date_Time","Date", 'Time',
+              "DO", "Temp",
+              "Low Range", "Full Range", "High Range", "Pres", "Baro", 
+              "pH", "CO2_ppm") 
 
 # Detect and guess variable names in a given data frame based on a predefined list of keywords
 getGuesses <- function(df) {
@@ -80,7 +83,7 @@ observeEvent(input$df_upload, {
     }
     for(i in 1:length(input$df_upload[,1])){
       filePath <- input$df_upload[[i, 'datapath']]
-      df <- read.csv(filePath, skip = ifelse(input$skipRow, 1, 0))
+      df <- read.table(filePath, skip = ifelse(input$skipRow, 1, 0), sep = c(',', ';'))
       fileName <- input$df_upload[[i, 'name']]
       add_df(df, fileName)
       }
@@ -175,11 +178,11 @@ observeEvent(input$uploadBtn, {
   
   names(df)[names(df) == 'Date'] <- 'Date_Time'
   names(df)[names(df) == 'Temp'] <- 'Temp_C'
-  names(df)[names(df) == 'DO'] <- 'DO_conc'
-  names(df)[names(df) == 'Abs'] <- 'Abs_Pres'
-  names(df)[names(df) == 'Low Range'] <- 'Low_Range'
-  names(df)[names(df) == 'High Range'] <- 'High_Range'
-  names(df)[names(df) == 'Full Range'] <- 'Full_Range'
+  names(df)[names(df) == 'DO'] <- 'DO_mgL'
+  names(df)[names(df) == 'Abs'] <- 'Baro_press_kPa'
+  names(df)[names(df) == 'Low Range'] <- 'Cond_low'
+  names(df)[names(df) == 'High Range'] <- 'Cond_high'
+  names(df)[names(df) == 'Full Range'] <- 'Cond_full'
   
   df$Temp_C <- as.numeric(df$Temp_C)
   # Reshape df from wide to long format 
