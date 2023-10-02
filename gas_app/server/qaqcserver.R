@@ -62,16 +62,20 @@ observeEvent(input$qaqcSave, {
   for(site in unique(goop$combined_df$Site)){
     for(station in unique(goop$combined_df$Station)){
       date <- str_split(min(goop$combined_df$Date_Time), pattern = ' ')[[1]][1]
-      file_name <- paste0('processed_',site,'_',station,'_',date,'.csv')
+      file_name <- paste0('processed_',site,'_',station,'_', date,'.csv')
       exportDF <- goop$combined_df
-      exportDF['Date_Time'] <- format(exportDF['Date_Time'], "%m/%d/%y %I:%M:%S %p")
+      exportDF['Date_Time'] <- format(exportDF['Date_Time'], "%Y-%m-%d %I:%M:%S %p")
+      exportDF <- exportDF %>% 
+        dplyr::arrange(Date_Time) %>% 
+        dplyr::select(-id)
       write.csv(exportDF, file_name, row.names = FALSE)
       drive_upload(name = file_name, media = file_name, path = file_path)
       file.remove(file_name)
     }
   }
   alert('Files Uploaded!')
-})
+}
+)
 
 
 observeEvent(input$uploadBtn, {
